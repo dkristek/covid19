@@ -5,6 +5,9 @@ __pycache__/
 
 # Other Files
 owid-covid-data.csv
+CovidDeaths.csv
+CovidVaccinations.csv
+
 # C extensions
 *.so
 
