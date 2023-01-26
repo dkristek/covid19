@@ -3,6 +3,8 @@
 -- then copied into excel and loaded into Tableau
 
 -- 1) Looking at the global total cases, deaths, and death percentage
+-- summing new cases/deaths easier than summing total cases as there would be overlap
+-- would have to select max total cases and then add
 SELECT SUM(new_cases) AS total_cases, SUM(new_deaths) AS total_deaths, 
 SUM(CAST(new_deaths AS FLOAT))/SUM(New_Cases)*100 AS DeathPercentage
 FROM covid_deaths
@@ -43,21 +45,36 @@ AND NOT location = 'International'
 GROUP BY location, population, total_cases, date
 ORDER BY location, total_cases DESC;
 
--- 5) FIX THIS
+-- 5) Shows highest number of people vaccinated in each location
+-- original data for this is not excellent
+-- not every location has  a recent (january 2023 at time of writing) count
+-- shows people with one vaccine shot and people with two or more (fully vaccinated)
 
 SELECT DISTINCT ON (dea.location) dea.location, dea.continent, dea.date, dea.population
-, vac.total_vaccinations AS RollingPeopleVaccinated
+, vac.people_vaccinated AS PeopleVaccinated, vac.people_fully_vaccinated as PeopleFullyVaccinated
 FROM covid_deaths dea
 JOIN covid_vaccinations vac
 	ON dea.location = vac.location
 	AND dea.date = vac.date
 WHERE dea.continent IS NOT NULL
-GROUP BY dea.location, dea.continent, dea.date, dea.population, vac.total_vaccinations
-ORDER BY dea.location, RollingPeopleVaccinated DESC;
+AND vac.people_vaccinated IS NOT NULL
+GROUP BY dea.location, dea.continent, dea.date, dea.population, vac.people_vaccinated, vac.people_fully_vaccinated
+ORDER BY dea.location, PeopleVaccinated DESC;
 
--- 2) 
-SELECT SUM(new_cases) AS total_cases, SUM(new_deaths) AS total_deaths, 
-SUM(CAST(new_deaths AS FLOAT))/SUM(New_Cases)*100 AS DeathPercentage
-FROM covid_deaths
-WHERE continent IS NOT NULL;
+
+--6) percent pop vaccinated
+SELECT DISTINCT ON (dea.location) dea.location, dea.continent, dea.date, dea.population
+, vac.people_vaccinated AS PeopleVaccinated
+, vac.people_fully_vaccinated AS PeopleFullyVaccinated
+,(CAST(vac.people_vaccinated AS FLOAT)/population)*100 AS PercentPopVaccinated
+, (CAST(vac.people_fully_vaccinated AS FLOAT)/population)*100 AS PercentPopFullyVaxed
+FROM covid_deaths dea
+JOIN covid_vaccinations vac
+	ON dea.location = vac.location
+	AND dea.date = vac.date
+WHERE dea.continent IS NOT NULL
+AND vac.people_vaccinated IS NOT NULL
+GROUP BY dea.location, dea.continent, dea.date, dea.population
+, vac.people_vaccinated, vac.people_fully_vaccinated
+ORDER BY dea.location, PeopleVaccinated DESC;
 
