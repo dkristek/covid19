@@ -7,6 +7,9 @@ __pycache__/
 owid-covid-data.csv
 CovidDeaths.csv
 CovidVaccinations.csv
+C3C72100.file
+E9583100.file
+C0592100.file
 
 # C extensions
 *.so
