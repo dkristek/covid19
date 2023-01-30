@@ -1,0 +1,1 @@
+This folder contains the database schema for SQL and the original data exploration queries used

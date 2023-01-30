@@ -1,0 +1,1 @@
+The Tableau portion of this project was performed using Tableau Public. Unfortunately Tableau Public does not have the ability to link a sql server to Tableau. So instead the results of the sql queries used were copied and pasted to an Excel workbook. The workbook was then connected to Tableau. This folder contains the queries used and the excel workbook
