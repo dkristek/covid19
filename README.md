@@ -11,3 +11,4 @@ After these two tables were created they were imported into two tables in SQL. T
 
 ### Data Visualization
 Visualization was done using Tableau Public. A dashboard was created which can be found [here](https://public.tableau.com/app/profile/david.james.kristek/viz/Covid19_16748495855980/Covid19Dashboard).
+![Image of Tableau Dashboard created for the project](https://github.com/dkristek/covid19/blob/main/Data%20Visualization/Dashboard_screenshot.png)
